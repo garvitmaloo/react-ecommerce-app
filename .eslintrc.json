@@ -1,0 +1,30 @@
+{
+  "env": {
+    "browser": true,
+    "es2021": true,
+    "jest": true
+  },
+  "extends": ["react-app", "react-app/jest", "plugin:import/typescript"],
+  "parser": "@typescript-eslint/parser",
+
+  "parserOptions": {
+    "ecmaFeatures": {
+      "jsx": true
+    },
+    "ecmaVersion": "latest",
+    "sourceType": "module",
+    "project": "./tsconfig.json"
+  },
+  "plugins": ["react", "@typescript-eslint", "prettier"],
+  "rules": {
+    "no-unused-vars": "error",
+    "quotes": ["warn", "double"],
+    "comma-dangle": ["warn"],
+    "no-console": "warn",
+    "no-alert": "warn",
+    "no-nested-ternary": "off",
+    "react/jsx-key": "error",
+    "react/no-array-index-key": "warn"
+  },
+  "ignorePatterns": ["tailwind.config.js"]
+}
