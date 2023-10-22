@@ -1,7 +1,12 @@
+import { Outlet } from "react-router-dom";
+
+import Topbar from "./components/Topbar";
+
 function App() {
   return (
     <div className="App">
-      <h1 className="text-center font-bold text-6xl">Starting the app</h1>
+      <Topbar />
+      <Outlet />
     </div>
   );
 }
