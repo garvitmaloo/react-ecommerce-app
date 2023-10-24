@@ -7,6 +7,7 @@ import "./index.css";
 import App from "./App";
 import HomePage from "./pages/HomePage";
 import store from "./store/store";
+import WishlistPage from "./pages/WishlistPage";
 
 const root = ReactDOM.createRoot(
   document.getElementById("root") as HTMLElement
@@ -19,6 +20,10 @@ const appRouter = createBrowserRouter([
       {
         index: true,
         element: <HomePage />
+      },
+      {
+        path: "wishlist",
+        element: <WishlistPage />
       }
     ]
   }

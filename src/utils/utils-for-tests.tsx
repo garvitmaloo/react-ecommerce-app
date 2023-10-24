@@ -4,6 +4,7 @@ import { configureStore } from "@reduxjs/toolkit";
 import { Provider } from "react-redux";
 // As a basic setup, import your same slice reducers
 import { productsApi } from "../store/productsApi";
+import { wishlistApi } from "../store/wishlistApi";
 
 export function renderWithProviders(
   ui: ReactElement,
@@ -11,9 +12,14 @@ export function renderWithProviders(
     preloadedState = {},
     // Automatically create a store instance if no store was passed in
     store = configureStore({
-      reducer: { [productsApi.reducerPath]: productsApi.reducer },
+      reducer: {
+        [productsApi.reducerPath]: productsApi.reducer,
+        [wishlistApi.reducerPath]: wishlistApi.reducer
+      },
       middleware: (getDefaultMiddleware) =>
-        getDefaultMiddleware().concat(productsApi.middleware),
+        getDefaultMiddleware()
+          .concat(productsApi.middleware)
+          .concat(wishlistApi.middleware),
       preloadedState
     }),
     ...renderOptions
