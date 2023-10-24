@@ -5,6 +5,7 @@ import { Provider } from "react-redux";
 // As a basic setup, import your same slice reducers
 import { productsApi } from "../store/productsApi";
 import { wishlistApi } from "../store/wishlistApi";
+import { cartApi } from "../store/cartApi";
 
 export function renderWithProviders(
   ui: ReactElement,
@@ -14,12 +15,14 @@ export function renderWithProviders(
     store = configureStore({
       reducer: {
         [productsApi.reducerPath]: productsApi.reducer,
-        [wishlistApi.reducerPath]: wishlistApi.reducer
+        [wishlistApi.reducerPath]: wishlistApi.reducer,
+        [cartApi.reducerPath]: cartApi.reducer
       },
       middleware: (getDefaultMiddleware) =>
         getDefaultMiddleware()
           .concat(productsApi.middleware)
-          .concat(wishlistApi.middleware),
+          .concat(wishlistApi.middleware)
+          .concat(cartApi.middleware),
       preloadedState
     }),
     ...renderOptions

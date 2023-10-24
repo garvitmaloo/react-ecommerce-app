@@ -8,6 +8,7 @@ import App from "./App";
 import HomePage from "./pages/HomePage";
 import store from "./store/store";
 import WishlistPage from "./pages/WishlistPage";
+import CartPage from "./pages/CartPage";
 
 const root = ReactDOM.createRoot(
   document.getElementById("root") as HTMLElement
@@ -24,6 +25,10 @@ const appRouter = createBrowserRouter([
       {
         path: "wishlist",
         element: <WishlistPage />
+      },
+      {
+        path: "cart",
+        element: <CartPage />
       }
     ]
   }

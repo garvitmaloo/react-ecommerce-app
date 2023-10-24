@@ -5,3 +5,7 @@ export interface IProduct {
   price: number;
   imageURL: string;
 }
+
+export interface ChildrenProps {
+  children: React.ReactNode;
+}
