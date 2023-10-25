@@ -26,5 +26,5 @@
     "react/jsx-key": "error",
     "react/no-array-index-key": "warn"
   },
-  "ignorePatterns": ["tailwind.config.js"]
+  "ignorePatterns": ["tailwind.config.js", "**/coverage/"]
 }

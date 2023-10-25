@@ -28,9 +28,28 @@
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
+    "coverage": "npm run test -- --coverage --watchAll",
     "lint": "eslint .",
     "lint:fix": "eslint --fix .",
     "prepare": "husky install"
+  },
+  "jest": {
+    "collectCoverageFrom": [
+      "src/**/*.{js,jsx,ts,tsx}",
+      "!src/index.tsx",
+      "!src/reportWebVitals.ts",
+      "!src/store/store.ts",
+      "!src/types/**/*.{ts}",
+      "!src/react-app-env.d.ts"
+    ],
+    "coverageThreshold": {
+      "global": {
+        "branches": 90,
+        "functions": 90,
+        "lines": 90,
+        "statements": -10
+      }
+    }
   },
   "husky": {
     "hooks": {
