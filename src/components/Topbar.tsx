@@ -2,10 +2,12 @@ import Button from "@mui/material/Button";
 import { Link, useNavigate } from "react-router-dom";
 
 import { useGetCartQuery } from "../store/cartApi";
+import { useGetWishlistQuery } from "../store/wishlistApi";
 
 export default function Topbar() {
   const navigate = useNavigate();
   const { data } = useGetCartQuery();
+  const { data: wishlistData } = useGetWishlistQuery();
 
   function handleCartClick() {
     navigate("/cart");
@@ -16,6 +18,9 @@ export default function Topbar() {
   }
 
   const allCartItems = data ? Object.values(data) : [];
+  const totalWishlistItems = wishlistData
+    ? Object.values(wishlistData).length
+    : 0;
 
   return (
     <nav
@@ -48,7 +53,7 @@ export default function Topbar() {
         >
           Wishlist
           <span className="inline-block ms-3 rounded-full p-1 bg-white text-xs text-gray-900">
-            4
+            {totalWishlistItems}
           </span>
         </Button>
       </ul>

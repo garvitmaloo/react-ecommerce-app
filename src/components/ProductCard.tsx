@@ -5,18 +5,28 @@ import React from "react";
 import { IProduct } from "../types/types";
 import { useUpdateProductDetailsMutation } from "../store/productsApi";
 import { useAddProductToCartMutation } from "../store/cartApi";
+import { useAddProductToWishlistMutation } from "../store/wishlistApi";
 
 function ProductCard({ productDetails }: { productDetails: IProduct }) {
   const [addProductToCart, { isLoading }] = useAddProductToCartMutation();
 
-  const [updateProductDetails, { isLoading: updatingProduct }] =
-    useUpdateProductDetailsMutation();
+  const [updateProductDetails] = useUpdateProductDetailsMutation();
+
+  const [addProductToWishlist, { isLoading: addingToWishlist }] =
+    useAddProductToWishlistMutation();
 
   async function handleAddToCart(productDetails: IProduct) {
     if (productDetails.inCart) return;
 
     await addProductToCart({ ...productDetails, quantity: 1, inCart: true });
     await updateProductDetails({ ...productDetails, inCart: true });
+  }
+
+  async function handleAddToWishlist(productDetails: IProduct) {
+    if (productDetails.inWishlist) return;
+
+    await addProductToWishlist({ ...productDetails, inWishlist: true });
+    await updateProductDetails({ ...productDetails, inWishlist: true });
   }
 
   return (
@@ -38,17 +48,27 @@ function ProductCard({ productDetails }: { productDetails: IProduct }) {
           variant="contained"
           sx={{ width: "100%" }}
           onClick={() => handleAddToCart(productDetails)}
-          disabled={isLoading || updatingProduct}
+          disabled={isLoading}
           data-testid="add-to-cart-btn"
         >
-          {isLoading || updatingProduct
+          {isLoading
             ? "Please Wait"
             : productDetails.inCart
             ? "Added To Cart"
             : "Add To Cart"}
         </Button>
-        <Button variant="contained" sx={{ width: "100%" }}>
-          Add To Wishlist
+        <Button
+          variant="contained"
+          sx={{ width: "100%" }}
+          onClick={() => handleAddToWishlist(productDetails)}
+          disabled={addingToWishlist}
+          data-testid="add-to-wishlist-btn"
+        >
+          {addingToWishlist
+            ? "Please wait"
+            : productDetails.inWishlist
+            ? "Added to Wishlist"
+            : "Add to Wishlist"}
         </Button>
       </div>
     </Card>

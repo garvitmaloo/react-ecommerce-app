@@ -7,14 +7,35 @@ const BASE_URL =
 
 export const wishlistApi = createApi({
   reducerPath: "wishlistApi",
-  tagTypes: ["wishlist"],
+  tagTypes: ["wishlist", "products"],
   baseQuery: fetchBaseQuery({ baseUrl: `${BASE_URL}/wishlist.json` }),
   endpoints: (builder) => ({
     getWishlist: builder.query<IProduct[], void>({
       query: () => "/",
       providesTags: ["wishlist"]
+    }),
+    addProductToWishlist: builder.mutation<{ [key: string]: string }, IProduct>(
+      {
+        query: (productDetails) => ({
+          url: "/",
+          method: "POST",
+          body: productDetails
+        }),
+        invalidatesTags: ["wishlist", "products"]
+      }
+    ),
+    removeFromWishlist: builder.mutation<null, string>({
+      query: (wishlistItemId) => ({
+        url: `${BASE_URL}/wishlist/${wishlistItemId}.json`,
+        method: "DELETE"
+      }),
+      invalidatesTags: ["wishlist"]
     })
   })
 });
 
-export const { useGetWishlistQuery } = wishlistApi;
+export const {
+  useGetWishlistQuery,
+  useAddProductToWishlistMutation,
+  useRemoveFromWishlistMutation
+} = wishlistApi;
