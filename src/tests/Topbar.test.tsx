@@ -1,7 +1,8 @@
-import { screen, render, fireEvent } from "@testing-library/react";
+import { screen, fireEvent, waitFor } from "@testing-library/react";
 import { MemoryRouter } from "react-router-dom";
 
 import Topbar from "../components/Topbar";
+import { renderWithProviders } from "../utils/utils-for-tests";
 
 const mockedUsedNavigate = jest.fn();
 jest.mock("react-router-dom", () => ({
@@ -11,7 +12,7 @@ jest.mock("react-router-dom", () => ({
 
 describe("Routing is implemented properly", () => {
   it("should navigate to cart page if cart button is clicked", () => {
-    render(
+    renderWithProviders(
       <MemoryRouter>
         <Topbar />
       </MemoryRouter>
@@ -25,7 +26,7 @@ describe("Routing is implemented properly", () => {
   });
 
   it("should navigate to wishlist page if wishlist button is clicked", () => {
-    render(
+    renderWithProviders(
       <MemoryRouter>
         <Topbar />
       </MemoryRouter>
@@ -36,5 +37,18 @@ describe("Routing is implemented properly", () => {
 
     expect(mockedUsedNavigate).toHaveBeenCalledWith("/wishlist");
     mockedUsedNavigate.mockRestore();
+  });
+});
+
+test("Cart button displays correct number of items in the cart", async () => {
+  renderWithProviders(
+    <MemoryRouter>
+      <Topbar />
+    </MemoryRouter>
+  );
+
+  await waitFor(async () => {
+    const cartBtn = await screen.findByTestId("cart-btn");
+    expect(cartBtn).toHaveTextContent(/3/);
   });
 });

@@ -4,8 +4,14 @@ export interface IProduct {
   productDescription: string;
   price: number;
   imageURL: string;
+  inCart: boolean;
+  inWishlist: boolean;
 }
 
-export interface ChildrenProps {
-  children: React.ReactNode;
+export type CartItem = IProduct & { quantity: number };
+
+export interface ICartProductCardProps {
+  children?: React.ReactNode;
+  cartItemId: string;
+  productDetails: CartItem;
 }
