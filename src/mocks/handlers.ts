@@ -3,7 +3,7 @@ import { rest } from "msw";
 import { CartItem, IProduct } from "../types/types";
 
 export const DUMMY_PRODUCT_DETAILS: IProduct = {
-  id: 1,
+  id: 1000,
   productName: "Some Name",
   productDescription: "Some details",
   price: 1000,
@@ -111,21 +111,21 @@ export const handlers = [
   ),
 
   rest.delete(
-    "https://react-ecommerce-app-d25b3-default-rtdb.firebaseio.com/cart/1.json",
+    "https://react-ecommerce-app-d25b3-default-rtdb.firebaseio.com/cart/1000.json",
     (req, res, ctx) => {
       return res(ctx.status(200), ctx.json(null));
     }
   ),
 
   rest.patch(
-    "https://react-ecommerce-app-d25b3-default-rtdb.firebaseio.com/products/1.json",
+    "https://react-ecommerce-app-d25b3-default-rtdb.firebaseio.com/products/1000.json",
     (req, res, ctx) => {
       return res(ctx.status(200), ctx.json({ inCart: false }));
     }
   ),
 
   rest.patch(
-    "https://react-ecommerce-app-d25b3-default-rtdb.firebaseio.com/products/1.json",
+    "https://react-ecommerce-app-d25b3-default-rtdb.firebaseio.com/products/1000.json",
     (req, res, ctx) => {
       return res(ctx.status(200), ctx.json({ quantity: 2 }));
     }

@@ -51,13 +51,6 @@ describe("Cart details component is rendered correctly", () => {
   });
 });
 
-test("Cart details component is rendered correctly", async () => {
-  renderWithProviders(<CartPage />);
-
-  const cartDetailsComponent = await screen.findByTestId("cart-details");
-  expect(cartDetailsComponent).toBeInTheDocument();
-});
-
 test("A card is rendered for each cart item", async () => {
   renderWithProviders(<CartPage />);
 
@@ -68,7 +61,7 @@ test("A card is rendered for each cart item", async () => {
 describe("Product cards in cart page", () => {
   it("should successfully remove an item from cart", async () => {
     renderWithProviders(
-      <CartProductCard productDetails={DUMMY_CART_ITEM} cartItemId="1" />
+      <CartProductCard productDetails={DUMMY_CART_ITEM} cartItemId="1000" />
     );
 
     const removeBtn = screen.getByTestId("remove-from-cart-btn");
