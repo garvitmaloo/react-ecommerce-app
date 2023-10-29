@@ -1,8 +1,11 @@
 import Button from "@mui/material/Button";
 import { Link, useNavigate } from "react-router-dom";
 
+import { useGetCartQuery } from "../store/cartApi";
+
 export default function Topbar() {
   const navigate = useNavigate();
+  const { data } = useGetCartQuery();
 
   function handleCartClick() {
     navigate("/cart");
@@ -11,6 +14,8 @@ export default function Topbar() {
   function handleWishlistClick() {
     navigate("/wishlist");
   }
+
+  const allCartItems = data ? Object.values(data) : [];
 
   return (
     <nav
@@ -31,7 +36,9 @@ export default function Topbar() {
         >
           Cart
           <span className="inline-block ms-3 rounded-full p-1 bg-white text-xs text-gray-900">
-            2
+            {data
+              ? allCartItems.reduce((acc, item) => acc + item.quantity, 0)
+              : 0}
           </span>
         </Button>
         <Button
