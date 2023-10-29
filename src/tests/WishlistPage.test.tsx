@@ -25,8 +25,9 @@ test("Product card is rendered for every product in the wishlist", async () => {
   renderWithProviders(<WishlistPage />);
 
   const productCards = await screen.findAllByTestId("wishlist-product-card");
-  expect(productCards).toHaveLength(1); // length should be one because we are using Array.slice(1) in Wishlist page
+  expect(productCards).toHaveLength(2);
 
-  const productCard = await screen.findByTestId("wishlist-product-card");
-  expect(productCard).toBeInTheDocument();
+  productCards.forEach((card) => {
+    expect(card).toBeInTheDocument();
+  });
 });
