@@ -90,7 +90,9 @@ const CartProductCard: React.FC<ICartProductCardProps> = ({
             >
               +
             </Button>
-            <span className="mx-2">{productDetails.quantity}</span>
+            <span className="mx-2" data-testid="item-qty">
+              {productDetails.quantity}
+            </span>
             <Button
               variant="outlined"
               aria-label="Decrease quantity"

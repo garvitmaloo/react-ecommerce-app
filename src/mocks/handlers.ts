@@ -111,7 +111,7 @@ export const handlers = [
   ),
 
   rest.delete(
-    "https://react-ecommerce-app-d25b3-default-rtdb.firebaseio.com/cart/1000.json",
+    "https://react-ecommerce-app-d25b3-default-rtdb.firebaseio.com/cart/hashed-id-string.json",
     (req, res, ctx) => {
       return res(ctx.status(200), ctx.json(null));
     }
@@ -125,9 +125,16 @@ export const handlers = [
   ),
 
   rest.patch(
-    "https://react-ecommerce-app-d25b3-default-rtdb.firebaseio.com/products/1000.json",
+    "https://react-ecommerce-app-d25b3-default-rtdb.firebaseio.com/cart/hashed-id-string.json",
     (req, res, ctx) => {
       return res(ctx.status(200), ctx.json({ quantity: 2 }));
+    }
+  ),
+
+  rest.post(
+    "https://react-ecommerce-app-d25b3-default-rtdb.firebaseio.com/wishlist.json",
+    (req, res, ctx) => {
+      return res(ctx.status(200), ctx.json({ name: "Some id hash" }));
     }
   )
 ];

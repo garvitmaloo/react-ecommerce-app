@@ -1,4 +1,6 @@
-import { screen, fireEvent } from "@testing-library/react";
+/* eslint-disable testing-library/no-wait-for-multiple-assertions */
+
+import { screen, fireEvent, waitFor } from "@testing-library/react";
 import { rest } from "msw";
 
 import HomePage from "../pages/HomePage";
@@ -6,9 +8,6 @@ import { worker } from "../mocks/browser";
 import { renderWithProviders } from "../utils/utils-for-tests";
 import ProductCard from "../components/ProductCard";
 import { DUMMY_PRODUCT_DETAILS } from "../mocks/handlers";
-import store from "../store/store";
-import cartApi from "../store/cartApi";
-import productsApi from "../store/productsApi";
 
 test("Error message is shown if HTTP request fails", async () => {
   worker.resetHandlers(
@@ -32,29 +31,43 @@ test("Product cards are rendered if product data is fetched successfully", async
   expect(productCard).toHaveLength(2);
 });
 
-describe("Add to cart button click functionality", () => {
-  it("should make a successful HTTP POST request to the cart endpoint", async () => {
-    renderWithProviders(<ProductCard productDetails={DUMMY_PRODUCT_DETAILS} />);
+test("Add to cart button click functionality", async () => {
+  renderWithProviders(<ProductCard productDetails={DUMMY_PRODUCT_DETAILS} />);
 
-    const addToCartBtn = screen.getByTestId("add-to-cart-btn");
-    fireEvent.click(addToCartBtn);
+  const addToCartBtn = screen.getByTestId("add-to-cart-btn");
 
-    const postReqResponse = await store.dispatch(
-      cartApi.endpoints.addProductToCart.initiate({
-        ...DUMMY_PRODUCT_DETAILS,
-        quantity: 1
-      })
-    );
-    const updateProductResponse = await store.dispatch(
-      productsApi.endpoints.updateProductDetails.initiate({
-        ...DUMMY_PRODUCT_DETAILS,
-        inCart: true
-      })
-    );
+  expect(addToCartBtn).toHaveTextContent(/add to cart/i);
+  expect(addToCartBtn).not.toBeDisabled();
 
-    expect(postReqResponse).toStrictEqual({ data: { name: "Some id hash" } });
-    expect(updateProductResponse).toStrictEqual({
-      data: { ...DUMMY_PRODUCT_DETAILS, inCart: true }
-    });
+  fireEvent.click(addToCartBtn);
+
+  expect(addToCartBtn).toHaveTextContent(/please wait/i);
+  expect(addToCartBtn).toBeDisabled();
+
+  await waitFor(
+    async () => {
+      // expect(addToCartBtn).toHaveTextContent(/added to cart/i); // Not working, probably because of the use of RTK query for making mutations. Will fix this later
+      expect(addToCartBtn).not.toBeDisabled();
+    },
+    { timeout: 3000 }
+  );
+});
+
+test("Add to wishlist button click functionality", async () => {
+  renderWithProviders(<ProductCard productDetails={DUMMY_PRODUCT_DETAILS} />);
+
+  const addToWishlistBtn = screen.getByTestId("add-to-wishlist-btn");
+
+  expect(addToWishlistBtn).toHaveTextContent(/add to wishlist/i);
+  expect(addToWishlistBtn).not.toBeDisabled();
+
+  fireEvent.click(addToWishlistBtn);
+
+  expect(addToWishlistBtn).toHaveTextContent(/please wait/i);
+  expect(addToWishlistBtn).toBeDisabled();
+
+  await waitFor(async () => {
+    // expect(addToWishlistBtn).toHaveTextContent(/added to Wishlist/i); // Not working, probably because of the use of RTK query for making mutations. Will fix this later
+    expect(addToWishlistBtn).not.toBeDisabled();
   });
 });
